@@ -1,4 +1,4 @@
-import { v4 } from "uuid";
+/* import { v4 } from "uuid"; */
 import { hashSync } from "bcryptjs";
 import {
   Entity,
@@ -13,7 +13,7 @@ import {
 @Entity("users")
 class User {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @Column({ length: 50 })
   name: string;
