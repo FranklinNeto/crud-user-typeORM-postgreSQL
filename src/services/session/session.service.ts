@@ -14,9 +14,13 @@ const createSessionService = async ({
 
   const user = await sessionRepo.findOneBy({ email: email });
 
+  if (!user) {
+    throw new AppError("Invalid user or password", 401);
+  }
+
   const passwordMatch = compare(password, user.password);
 
-  if (!user || !passwordMatch) {
+  if (passwordMatch) {
     throw new AppError("Invalid user or password", 401);
   }
 
