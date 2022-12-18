@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import { hashSync } from "bcryptjs";
 import {
   Entity,
@@ -9,9 +10,9 @@ import {
   BeforeUpdate,
 } from "typeorm";
 
-@Entity(users)
+@Entity("users")
 class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column({ length: 50 })
@@ -23,7 +24,7 @@ class User {
   @Column({ length: 120 })
   password: string;
 
-  @Column({ length: 50 })
+  @Column()
   isAdm: boolean;
 
   @CreateDateColumn()
