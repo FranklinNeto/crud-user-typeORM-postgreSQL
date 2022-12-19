@@ -5,14 +5,14 @@ export interface IUserRequest {
   isAdm: boolean;
 }
 
-export interface IUser {
-  id: string;
+export interface IUserResponse {
   name: string;
   email: string;
-  /*  password: string; */
   isAdm: boolean;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+  id: string;
 }
 
 export interface IUserUpdate {

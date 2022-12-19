@@ -27,6 +27,8 @@ const verifyAuthTokenMiddleware = async (
       id: decoded.sub,
       isAdm: decoded.isAdm,
     };
+
+    return next();
   });
 };
 
