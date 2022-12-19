@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { SchemaOf } from "yup";
 import { IUserRequest } from "../interfaces/users/index";
 import { IUserResponse } from "../interfaces/users/index";
+import { IUserUpdateRequest } from "../interfaces/users/index";
 
 const userSchema: SchemaOf<IUserRequest> = yup.object().shape({
   name: yup.string().required(),
@@ -20,4 +21,10 @@ const usersWihoutPasswordSchema: SchemaOf<IUserResponse> = yup.object().shape({
   id: yup.string().notRequired(),
 });
 
-export { userSchema, usersWihoutPasswordSchema };
+const usersUpdateSchema: SchemaOf<IUserUpdateRequest> = yup.object().shape({
+  email: yup.string().email().notRequired(),
+  name: yup.string().notRequired(),
+  password: yup.string().notRequired(),
+});
+
+export { userSchema, usersWihoutPasswordSchema, usersUpdateSchema };

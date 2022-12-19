@@ -1,5 +1,5 @@
-/* import { v4 } from "uuid"; */
 import { hashSync } from "bcryptjs";
+import { getRounds } from "bcryptjs";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  DeleteDateColumn,
 } from "typeorm";
 
 @Entity("users")
@@ -36,10 +37,16 @@ class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @DeleteDateColumn()
+  deletedAt: Date;
+
   @BeforeUpdate()
   @BeforeInsert()
   hashPassword() {
-    this.password = hashSync(this.password, 10);
+    const isEncrypted = getRounds(this.password);
+    if (!isEncrypted) {
+      this.password = hashSync(this.password, 10);
+    }
   }
 }
 

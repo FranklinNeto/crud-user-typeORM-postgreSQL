@@ -15,7 +15,7 @@ export interface IUserResponse {
   id: string;
 }
 
-export interface IUserUpdate {
+export interface IUserUpdateRequest {
   name?: string;
   email?: string;
   password?: string;
