@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/AppError";
 
-const verifyIsOwnerMiddleware = async (
+const verifyIsOwnerUpdateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { isAdm, id } = req.user;
-
-  console.log({ olha_aqui: id });
 
   if (isAdm) {
     return next();
@@ -17,8 +15,8 @@ const verifyIsOwnerMiddleware = async (
   const idParams = req.params.id;
 
   if (idParams !== id) {
-    throw new AppError("Missing admin permissions", 403);
+    throw new AppError("Missing admin permissions", 401);
   }
   return next();
 };
-export default verifyIsOwnerMiddleware;
+export default verifyIsOwnerUpdateMiddleware;

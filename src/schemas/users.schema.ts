@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
 import { IUserRequest } from "../interfaces/users/index";
-import { IUserResponse } from "../interfaces/users/index";
-import { IUserUpdateRequest } from "../interfaces/users/index";
+import { IUser } from "../interfaces/users/index";
+import { IUserUpdate } from "../interfaces/users/index";
 
 const userSchema: SchemaOf<IUserRequest> = yup.object().shape({
   name: yup.string().required(),
@@ -11,7 +11,7 @@ const userSchema: SchemaOf<IUserRequest> = yup.object().shape({
   isAdm: yup.boolean().required(),
 });
 
-const usersWihoutPasswordSchema: SchemaOf<IUserResponse> = yup.object().shape({
+const usersWihoutPasswordSchema: SchemaOf<IUser> = yup.object().shape({
   name: yup.string().notRequired(),
   email: yup.string().email().notRequired(),
   isAdm: yup.boolean().notRequired(),
@@ -21,7 +21,7 @@ const usersWihoutPasswordSchema: SchemaOf<IUserResponse> = yup.object().shape({
   id: yup.string().notRequired(),
 });
 
-const usersUpdateSchema: SchemaOf<IUserUpdateRequest> = yup.object().shape({
+const usersUpdateSchema: SchemaOf<IUserUpdate> = yup.object().shape({
   email: yup.string().email().notRequired(),
   name: yup.string().notRequired(),
   password: yup.string().notRequired(),

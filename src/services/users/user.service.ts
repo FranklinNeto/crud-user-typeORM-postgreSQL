@@ -1,13 +1,12 @@
 import { IUserRequest } from "../../interfaces/users/index";
 import AppDataSource from "../../data-source";
 import { User } from "../../entities/user.entity";
-import { IUserResponse } from "../../interfaces/users/index";
+import { IUser } from "../../interfaces/users/index";
 import { usersWihoutPasswordSchema } from "../../schemas/users.schema";
-import { IUserUpdateRequest } from "../../interfaces/users/index";
+import { IUserUpdate } from "../../interfaces/users/index";
+import { AppError } from "../../errors/AppError";
 
-const createUserService = async (
-  userData: IUserRequest
-): Promise<IUserResponse> => {
+const createUserService = async (userData: IUserRequest): Promise<IUser> => {
   const userRepo = AppDataSource.getRepository(User);
   const newUser = userRepo.create(userData);
 
@@ -47,21 +46,22 @@ const retrieveUserService = async (userID: string): Promise<User> => {
 
 const updateUserService = async (
   userID: string,
-  userData: IUserUpdateRequest
-): Promise<IUserResponse> => {
+  userData: IUserUpdate
+): Promise<IUser> => {
   const userRepo = AppDataSource.getRepository(User);
 
   const foundUser = await userRepo.findOneBy({ id: userID });
 
-  const updatedUser = userRepo.create({
+  /* const updatedUser = userRepo.create({
     ...foundUser,
     ...userData,
-  });
+  }); */
 
-  await userRepo.save(updatedUser);
+  const updatedUser = await userRepo.save({ ...foundUser, ...userData });
 
   const updatedUserWithoutPassword = await usersWihoutPasswordSchema.validate(
     updatedUser,
+    /* foundUser, */
     {
       stripUnknown: true,
     }
@@ -70,22 +70,13 @@ const updateUserService = async (
   return updatedUserWithoutPassword;
 };
 
-const deleteUserService = async (userID: string): Promise<{}> => {
+const deleteUserService = async (userID: string): Promise<void> => {
   const userRepo = AppDataSource.getRepository(User);
   const foundUser = await userRepo.findOneBy({ id: userID });
 
-  await userRepo.softRemove(foundUser);
+  await userRepo.save({ ...foundUser, isActive: false });
 
-  const deletedUser = await userRepo.save({ ...foundUser, isActive: false });
-
-  /* const deletedUserWithoutPassword = usersWihoutPasswordSchema.validate(
-    deletedUser,
-    {
-      stripUnknown: true,
-    }
-  ); */
-
-  return {};
+  /*  await userRepo.softRemove(foundUser); */
 };
 
 export {

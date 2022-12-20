@@ -11,7 +11,10 @@ const verifyEmailExistenceMiddleware = async (
   const { email } = req.body;
   const userRepo = AppDataSource.getRepository(User);
 
-  const foundUser = await userRepo.findOneBy({ email: email });
+  const foundUser = await userRepo.exist({
+    where: { email: String(email) },
+    /* withDeleted: true, */
+  });
 
   if (foundUser) {
     throw new AppError("E-mail already registered", 400);

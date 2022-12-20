@@ -13,9 +13,11 @@ import { userSchema } from "../schemas/users.schema";
 import { usersUpdateSchema } from "../schemas/users.schema";
 import verifyEmailExistenceMiddleware from "../middlewares/verifyEmailExistence.middleware";
 import verifyUserExistenceMiddleware from "../middlewares/verifyUserExistence.middleware";
-import verifyIsOwnerMiddleware from "../middlewares/verifyIsOwner.middleware";
+import verifyIsOwnerUpdateMiddleware from "../middlewares/verifyIsOwnerUpdate.middleware";
 import verifyIfUserIsAdm from "../middlewares/verifyIfUserIsAdm.middleware";
-
+import verifyIsOwnerDeleteMiddleware from "../middlewares/verifyIsOwnerDelete.middleware";
+import verifyUpdateReqBodyMiddleware from "../middlewares/verifyUpdateReqBody.middleware";
+import verifyIfUserIsActiveMiddleware from "../middlewares/verifyIfUserIsActive.middleware";
 const userRoutes = Router();
 
 userRoutes.post(
@@ -36,10 +38,12 @@ userRoutes.get("/:id", verifyAuthTokenMiddleware, retrieveUserController);
 
 userRoutes.patch(
   "/:id",
+  verifyUpdateReqBodyMiddleware,
   verifyIfDataIsValidMiddleware(usersUpdateSchema),
+  verifyEmailExistenceMiddleware,
   verifyAuthTokenMiddleware,
   verifyUserExistenceMiddleware,
-  verifyIsOwnerMiddleware,
+  verifyIsOwnerUpdateMiddleware,
   updateUserController
 );
 
@@ -47,7 +51,8 @@ userRoutes.delete(
   "/:id",
   verifyAuthTokenMiddleware,
   verifyUserExistenceMiddleware,
-  verifyIsOwnerMiddleware,
+  verifyIsOwnerDeleteMiddleware,
+  verifyIfUserIsActiveMiddleware,
   deleteUserController
 );
 

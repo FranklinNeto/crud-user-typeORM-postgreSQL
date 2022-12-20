@@ -8,7 +8,6 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  DeleteDateColumn,
 } from "typeorm";
 
 @Entity("users")
@@ -37,8 +36,8 @@ class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
+  /* @DeleteDateColumn()
+  deletedAt: Date; */
 
   @BeforeUpdate()
   @BeforeInsert()
