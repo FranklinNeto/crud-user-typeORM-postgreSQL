@@ -26,7 +26,17 @@ const createUserService = async (
 const listUserService = async (): Promise<User[]> => {
   const userRepo = AppDataSource.getRepository(User);
 
-  return await userRepo.find();
+  return await userRepo.find({
+    select: {
+      name: true,
+      email: true,
+      isAdm: true,
+      isActive: true,
+      createdAt: true,
+      updatedAt: true,
+      id: true,
+    },
+  });
 };
 
 const retrieveUserService = async (userID: string): Promise<User> => {
@@ -41,16 +51,16 @@ const updateUserService = async (
 ): Promise<IUserResponse> => {
   const userRepo = AppDataSource.getRepository(User);
 
-  const fondUser = userRepo.findOneBy({ id: userID });
+  const foundUser = await userRepo.findOneBy({ id: userID });
 
   const updatedUser = userRepo.create({
-    ...fondUser,
+    ...foundUser,
     ...userData,
   });
 
   await userRepo.save(updatedUser);
 
-  const updatedUserWithoutPassword = usersWihoutPasswordSchema.validate(
+  const updatedUserWithoutPassword = await usersWihoutPasswordSchema.validate(
     updatedUser,
     {
       stripUnknown: true,
@@ -60,7 +70,7 @@ const updateUserService = async (
   return updatedUserWithoutPassword;
 };
 
-const deleteUserService = async (userID: string): Promise<IUserResponse> => {
+const deleteUserService = async (userID: string): Promise<{}> => {
   const userRepo = AppDataSource.getRepository(User);
   const foundUser = await userRepo.findOneBy({ id: userID });
 
@@ -68,14 +78,14 @@ const deleteUserService = async (userID: string): Promise<IUserResponse> => {
 
   const deletedUser = await userRepo.save({ ...foundUser, isActive: false });
 
-  const deletedUserWithoutPassword = usersWihoutPasswordSchema.validate(
+  /* const deletedUserWithoutPassword = usersWihoutPasswordSchema.validate(
     deletedUser,
     {
       stripUnknown: true,
     }
-  );
+  ); */
 
-  return deletedUserWithoutPassword;
+  return {};
 };
 
 export {

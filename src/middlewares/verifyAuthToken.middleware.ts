@@ -11,9 +11,7 @@ const verifyAuthTokenMiddleware = async (
   const authToken = req.headers.authorization;
 
   if (!authToken) {
-    return res.status(401).json({
-      message: "Missing authorization headers",
-    });
+    throw new AppError("Missing authorization headers", 401);
   }
 
   const token = authToken.split(" ")[1];

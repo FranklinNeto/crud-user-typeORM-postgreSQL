@@ -43,7 +43,7 @@ const deleteUserController = async (req: Request, res: Response) => {
   const userID: string = req.params.id;
   const deletedUser = deleteUserService(userID);
 
-  return res.status(200).json(deletedUser);
+  return res.status(204).json(deletedUser);
 };
 
 export {

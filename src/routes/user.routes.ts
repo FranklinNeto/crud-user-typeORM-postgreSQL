@@ -11,25 +11,44 @@ import verifyAuthTokenMiddleware from "../middlewares/verifyAuthToken.middleware
 import verifyIfDataIsValidMiddleware from "../middlewares/verifyIfDataIsValid.middleware";
 import { userSchema } from "../schemas/users.schema";
 import { usersUpdateSchema } from "../schemas/users.schema";
+import verifyEmailExistenceMiddleware from "../middlewares/verifyEmailExistence.middleware";
+import verifyUserExistenceMiddleware from "../middlewares/verifyUserExistence.middleware";
+import verifyIsOwnerMiddleware from "../middlewares/verifyIsOwner.middleware";
+import verifyIfUserIsAdm from "../middlewares/verifyIfUserIsAdm.middleware";
 
-const userRouter = Router();
+const userRoutes = Router();
 
-userRouter.post(
+userRoutes.post(
   "",
   verifyIfDataIsValidMiddleware(userSchema),
+  verifyEmailExistenceMiddleware,
   createUserController
 );
 
-userRouter.get("", verifyAuthTokenMiddleware, listUserController);
+userRoutes.get(
+  "",
+  verifyAuthTokenMiddleware,
+  verifyIfUserIsAdm,
+  listUserController
+);
 
-userRouter.get("/:id", verifyAuthTokenMiddleware, retrieveUserController);
+userRoutes.get("/:id", verifyAuthTokenMiddleware, retrieveUserController);
 
-userRouter.patch(
+userRoutes.patch(
   "/:id",
   verifyIfDataIsValidMiddleware(usersUpdateSchema),
+  verifyAuthTokenMiddleware,
+  verifyUserExistenceMiddleware,
+  verifyIsOwnerMiddleware,
   updateUserController
 );
 
-userRouter.delete("/:id", verifyAuthTokenMiddleware, deleteUserController);
+userRoutes.delete(
+  "/:id",
+  verifyAuthTokenMiddleware,
+  verifyUserExistenceMiddleware,
+  verifyIsOwnerMiddleware,
+  deleteUserController
+);
 
-export default userRouter;
+export default userRoutes;

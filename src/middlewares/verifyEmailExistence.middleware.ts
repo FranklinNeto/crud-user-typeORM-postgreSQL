@@ -3,22 +3,21 @@ import AppDataSource from "../data-source";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
 
-const verifyUserExistenceMiddleware = async (
+const verifyEmailExistenceMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const userID = req.params.id;
-
+  const { email } = req.body;
   const userRepo = AppDataSource.getRepository(User);
 
-  const foundUser = await userRepo.findOneBy({ id: userID });
+  const foundUser = await userRepo.findOneBy({ email: email });
 
-  if (foundUser === null) {
-    throw new AppError("User not found", 404);
+  if (foundUser) {
+    throw new AppError("E-mail already registered", 400);
   }
 
   return next();
 };
 
-export default verifyUserExistenceMiddleware;
+export default verifyEmailExistenceMiddleware;
