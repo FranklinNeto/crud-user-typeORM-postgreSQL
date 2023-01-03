@@ -32,9 +32,9 @@ const updateUserController = async (req: Request, res: Response) => {
 
 const deleteUserController = async (req: Request, res: Response) => {
   const userID: string = req.params.id;
-  const deletedUser = await deleteUserService(userID);
+  await deleteUserService(userID);
 
-  return res.status(204).json(deletedUser);
+  return res.status(204).json();
 };
 
 export {

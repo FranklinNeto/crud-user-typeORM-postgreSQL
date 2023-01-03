@@ -45,16 +45,11 @@ const updateUserService = async (
 
   const foundUser = await userRepo.findOneBy({ id: userID });
 
-  /* const updatedUser = userRepo.create({
-    ...foundUser,
-    ...userData,
-  }); */
-
   const updatedUser = await userRepo.save({ ...foundUser, ...userData });
 
   const updatedUserWithoutPassword = await usersWihoutPasswordSchema.validate(
     updatedUser,
-    /* foundUser, */
+
     {
       stripUnknown: true,
     }
@@ -68,8 +63,6 @@ const deleteUserService = async (userID: string): Promise<void> => {
   const foundUser = await userRepo.findOneBy({ id: userID });
 
   await userRepo.save({ ...foundUser, isActive: false });
-
-  /*  await userRepo.softRemove(foundUser); */
 };
 
 export {
