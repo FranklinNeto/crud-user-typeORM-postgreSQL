@@ -17,12 +17,13 @@ import verifyIfUserIsAdm from "../middlewares/verifyIfUserIsAdm.middleware";
 import verifyIsOwnerDeleteMiddleware from "../middlewares/verifyIsOwnerDelete.middleware";
 import verifyUpdateReqBodyMiddleware from "../middlewares/verifyUpdateReqBody.middleware";
 import verifyIfUserIsActiveMiddleware from "../middlewares/verifyIfUserIsActive.middleware";
+import verifyEmailExistenceMiddlewareToCreate from "../middlewares/verifyEmailExistenceToCreate.middleware";
 const userRoutes = Router();
 
 userRoutes.post(
   "",
   verifyIfDataIsValidMiddleware(userSchema),
-  verifyEmailExistenceMiddleware,
+  verifyEmailExistenceMiddlewareToCreate,
   createUserController
 );
 

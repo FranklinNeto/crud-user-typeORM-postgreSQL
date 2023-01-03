@@ -3,7 +3,7 @@ import AppDataSource from "../data-source";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
 
-const verifyEmailExistenceMiddleware = async (
+const verifyEmailExistenceMiddlewareToCreate = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,10 +16,10 @@ const verifyEmailExistenceMiddleware = async (
   });
 
   if (foundUser) {
-    throw new AppError("E-mail already registered", 401);
+    throw new AppError("E-mail already registered", 400);
   }
 
   return next();
 };
 
-export default verifyEmailExistenceMiddleware;
+export default verifyEmailExistenceMiddlewareToCreate;
