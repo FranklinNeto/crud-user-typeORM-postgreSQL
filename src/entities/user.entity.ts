@@ -1,5 +1,4 @@
-import { hashSync } from "bcryptjs";
-import { getRounds } from "bcryptjs";
+import { hashSync, getRounds } from "bcryptjs";
 import {
   Entity,
   PrimaryGeneratedColumn,

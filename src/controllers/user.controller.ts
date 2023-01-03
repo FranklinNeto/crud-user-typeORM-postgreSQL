@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import {
   createUserService,
   listUserService,
-  retrieveUserService,
   updateUserService,
   deleteUserService,
 } from "../services/users/user.service";
@@ -20,14 +19,6 @@ const listUserController = async (req: Request, res: Response) => {
   const users = await listUserService();
 
   return res.status(200).json(users);
-};
-
-const retrieveUserController = async (req: Request, res: Response) => {
-  const userID: string = req.params.id;
-
-  const user = await retrieveUserService(userID);
-
-  return res.status(200).json(user);
 };
 
 const updateUserController = async (req: Request, res: Response) => {
@@ -49,7 +40,6 @@ const deleteUserController = async (req: Request, res: Response) => {
 export {
   createUserController,
   listUserController,
-  retrieveUserController,
   updateUserController,
   deleteUserController,
 };

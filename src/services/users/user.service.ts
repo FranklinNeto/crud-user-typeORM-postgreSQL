@@ -4,7 +4,6 @@ import { User } from "../../entities/user.entity";
 import { IUser } from "../../interfaces/users/index";
 import { usersWihoutPasswordSchema } from "../../schemas/users.schema";
 import { IUserUpdate } from "../../interfaces/users/index";
-import { AppError } from "../../errors/AppError";
 
 const createUserService = async (userData: IUserRequest): Promise<IUser> => {
   const userRepo = AppDataSource.getRepository(User);
@@ -36,12 +35,6 @@ const listUserService = async (): Promise<User[]> => {
       id: true,
     },
   });
-};
-
-const retrieveUserService = async (userID: string): Promise<User> => {
-  const userRepo = AppDataSource.getRepository(User);
-
-  return await userRepo.findOneBy({ id: userID });
 };
 
 const updateUserService = async (
@@ -82,7 +75,6 @@ const deleteUserService = async (userID: string): Promise<void> => {
 export {
   createUserService,
   listUserService,
-  retrieveUserService,
   updateUserService,
   deleteUserService,
 };

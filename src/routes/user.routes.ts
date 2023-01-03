@@ -4,7 +4,6 @@ import {
   createUserController,
   deleteUserController,
   listUserController,
-  retrieveUserController,
   updateUserController,
 } from "../controllers/user.controller";
 import verifyAuthTokenMiddleware from "../middlewares/verifyAuthToken.middleware";
@@ -33,8 +32,6 @@ userRoutes.get(
   verifyIfUserIsAdm,
   listUserController
 );
-
-userRoutes.get("/:id", verifyAuthTokenMiddleware, retrieveUserController);
 
 userRoutes.patch(
   "/:id",
